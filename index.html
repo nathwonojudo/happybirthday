@@ -37,37 +37,54 @@
     }
 
     body {
-      margin: 0;
-      overflow: hidden;
-      color: var(--ink);
-      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      /* dreamy gradient */
-      background: linear-gradient(135deg, var(--bg1), var(--bg2));
-      position: relative;
-    }
+  margin: 0;
+  overflow: hidden;
+  color: var(--ink);
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: url("./background.jpg") center / cover no-repeat fixed;
+  position: relative;
+}
 
-    /* subtle floral pattern overlay using inline SVG */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: .22;
-      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'><g fill='none' stroke='%23ffffff' stroke-opacity='.35'><path d='M120 15c18 30 18 60 0 90-18-30-18-60 0-90z'/><circle cx='60' cy='60' r='20'/><circle cx='180' cy='180' r='20'/><path d='M30 210c25-10 45-30 55-55M210 30c-25 10-45 30-55 55'/></g></svg>");
-      background-size: 220px 220px;
-      mix-blend-mode: soft-light;
-    }
+/* soft light overlay biar background foto kalem */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(250,247,242,0.75),
+    rgba(250,247,242,0.45)
+  );
+  z-index: 0;
+}
 
-    .stage {
-      height: 100%;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      perspective: 1200px;
-      position: relative;
-      padding: 24px;
-    }
+/* subtle floral pattern overlay using inline SVG */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.12; /* diturunin biar dewasa */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'><g fill='none' stroke='%23ffffff' stroke-opacity='.35'><path d='M120 15c18 30 18 60 0 90-18-30-18-60 0-90z'/><circle cx='60' cy='60' r='20'/><circle cx='180' cy='180' r='20'/><path d='M30 210c25-10 45-30 55-55M210 30c-25 10-45 30-55 55'/></g></svg>");
+  background-size: 260px 260px; /* lebih jarang */
+  background-position: center;
+  mix-blend-mode: soft-light;
+  z-index: 1;
+}
+
+.stage {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1200px;
+  position: relative;
+  padding: 24px;
+  z-index: 2; /* pastiin konten di atas overlay */
+}
+
 
     /* Floating stickers (Popmart vibes + sushi + flowers) */
     .sticker {
@@ -195,25 +212,29 @@
     }
 
     .letter h1 {
-      font-family: 'Great Vibes', cursive;
-      font-size: clamp(28px, 4.6vw, 46px);
-      color: var(--accent2);
-      margin: 0 0 10px
-    }
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(26px, 4.2vw, 42px);
+  font-weight: 600;
+  color: #8a4f3d; /* muted terracotta */
+  margin: 0 0 8px;
+}
 
     .letter .sub {
-      font-weight: 600;
-      color: #b35b78;
-      margin-bottom: 18px
-    }
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 500;
+  color: #7a7a7a;
+  margin-bottom: 20px;
+}
 
     .letter .poem {
-      font-family: 'Dancing Script', cursive;
-      font-size: clamp(18px, 2.6vw, 22px);
-      line-height: 1.9;
-      color: #2d2a2a;
-      white-space: pre-line;
-    }
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: clamp(17px, 2.4vw, 21px);
+  line-height: 1.8;
+  color: #2f2f2f;
+  white-space: pre-line;
+}
 
     @media (max-width: 480px) {
       .letter {
