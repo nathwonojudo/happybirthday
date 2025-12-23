@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Untukmu, Matahariku</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;600&family=Dancing+Script:wght@400;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg1: #ffe4ec;
+      /* pink pastel */
+      --bg2: #ffd8b5;
+      /* peach */
+      --card: #ffffff;
+      --ink: #2c2c2c;
+      --accent: #ff7aa2;
+      /* cherry blossom */
+      --accent2: #ff9567;
+      /* peachy */
+      --shadow: 0 20px 60px rgba(0, 0, 0, .18);
+      --soft-shadow: 0 10px 30px rgba(0, 0, 0, .12);
+      --radius: 26px;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      height: 100%
+    }
+
+    body {
+      margin: 0;
+      overflow: hidden;
+      color: var(--ink);
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      /* dreamy gradient */
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+      position: relative;
+    }
+
+    /* subtle floral pattern overlay using inline SVG */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .22;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'><g fill='none' stroke='%23ffffff' stroke-opacity='.35'><path d='M120 15c18 30 18 60 0 90-18-30-18-60 0-90z'/><circle cx='60' cy='60' r='20'/><circle cx='180' cy='180' r='20'/><path d='M30 210c25-10 45-30 55-55M210 30c-25 10-45 30-55 55'/></g></svg>");
+      background-size: 220px 220px;
+      mix-blend-mode: soft-light;
+    }
+
+    .stage {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      perspective: 1200px;
+      position: relative;
+      padding: 24px;
+    }
+
+    /* Floating stickers (Popmart vibes + sushi + flowers) */
+    .sticker {
+      position: fixed;
+      font-size: clamp(26px, 3.2vw, 42px);
+      filter: drop-shadow(0 6px 10px rgba(0, 0, 0, .15));
+      animation: float 6s ease-in-out infinite;
+      will-change: transform;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .s1 {
+      left: 5%;
+      top: 12%;
+      animation-delay: .2s
+    }
+
+    .s2 {
+      right: 8%;
+      top: 20%;
+      animation-delay: 1.1s
+    }
+
+    .s3 {
+      left: 12%;
+      bottom: 18%;
+      animation-delay: .6s
+    }
+
+    .s4 {
+      right: 12%;
+      bottom: 10%;
+      animation-delay: 1.4s
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-14px)
+      }
+    }
+
+    /* Envelope 3D */
+    .envelope-wrap {
+      position: relative;
+      width: min(82vw, 520px);
+      height: min(58vw, 360px);
+      transform-style: preserve-3d;
+      cursor: pointer;
+      filter: drop-shadow(0 18px 40px rgba(0, 0, 0, .25));
+    }
+
+    .envelope {
+      position: absolute;
+      inset: 0;
+      border-radius: 18px;
+    }
+
+    /* Back panel */
+    .back {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, #fff, #ffe9f1);
+      border-radius: 18px;
+    }
+
+    /* Bottom pocket */
+    .pocket {
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 70%;
+      background: linear-gradient(180deg, #ffdbe6, #ffc8d7);
+      border-bottom-left-radius: 18px;
+      border-bottom-right-radius: 18px;
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    /* Flap (top triangle) */
+    .flap {
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 58%;
+      transform-origin: top center;
+      transform: rotateX(0deg);
+      background: linear-gradient(180deg, #ffdde7, #ffcbdc);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      border-top-left-radius: 18px;
+      border-top-right-radius: 18px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, .12);
+    }
+
+    /* Letter (the paper with poem) */
+    .letter {
+      position: absolute;
+      left: 6%;
+      right: 6%;
+      top: -65%;
+      bottom: -85%;
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: clamp(18px, 3vw, 28px);
+      transform: translateY(30%) rotateX(-6deg);
+      transform-origin: bottom center;
+      opacity: .0;
+      pointer-events: none;
+      background-image: linear-gradient(180deg, rgba(255, 149, 103, .06), rgba(255, 122, 162, .06));
+    }
+
+    .hint {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      bottom: -48px;
+      left: 0;
+      font-weight: 600;
+      color: #7c4a58;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, .1);
+    }
+
+    .letter h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(28px, 4.6vw, 46px);
+      color: var(--accent2);
+      margin: 0 0 10px
+    }
+
+    .letter .sub {
+      font-weight: 600;
+      color: #b35b78;
+      margin-bottom: 18px
+    }
+
+    .letter .poem {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(18px, 2.6vw, 22px);
+      line-height: 1.9;
+      color: #2d2a2a;
+      white-space: pre-line;
+    }
+
+    @media (max-width: 480px) {
+      .letter {
+        position: absolute;
+        left: 6%;
+        right: 6%;
+        top: -65%;
+        bottom: -120%;
+      }
+
+      .letter .poem {
+        /* Ukuran font fluid antara 15px hingga 17px di mobile */
+        font-size: clamp(15px, 4.0vw, 17px);
+        line-height: 1.6;
+      }
+    }
+
+    /* Floral corners on the letter */
+    .corner {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      opacity: .8
+    }
+
+    .corner.tl {
+      left: -8px;
+      top: -8px;
+      transform: rotate(-12deg)
+    }
+
+    .corner.br {
+      right: -8px;
+      bottom: -8px;
+      transform: rotate(12deg)
+    }
+
+    /* Audio control */
+    .audio-ctl {
+      position: fixed;
+      right: 18px;
+      top: 18px;
+      background: rgba(255, 255, 255, .6);
+      backdrop-filter: blur(6px);
+      border-radius: 999px;
+      box-shadow: var(--soft-shadow);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      z-index: 10
+    }
+
+    .audio-ctl button {
+      border: 0;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(255, 122, 162, .25);
+    }
+
+    .audio-ctl span {
+      font-size: 14px;
+      color: #5e3f4b;
+      font-weight: 600
+    }
+
+    /* Hidden state before open */
+    .hide {
+      display: none
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 520px) {
+      .envelope-wrap {
+        height: min(62vw, 320px)
+      }
+
+      .hint {
+        bottom: -36px
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Floating stickers -->
+  <div class="sticker s1" data-depth="0.2">🧸</div>
+  <div class="sticker s2" data-depth="0.3">🍣</div>
+  <div class="sticker s3" data-depth="0.15">🌸</div>
+  <div class="sticker s4" data-depth="0.25">🍣</div>
+
+  <!-- Music control (optional) -->
+  <div class="audio-ctl">
+    <button id="playBtn" aria-label="Putar musik">Play</button>
+    <span id="trackLabel">Instrumental Lembut</span>
+    <audio id="bgm" preload="auto" loop>
+      <!-- Bebas ganti URL audio di bawah ini dengan file kamu sendiri -->
+      <source src="music.mp3" type="audio/mpeg" />
+    </audio>
+  </div>
+
+  <!-- Stage: Envelope + Letter -->
+  <div class="stage">
+    <div class="envelope-wrap" id="envelopeWrap" aria-label="Amplop interaktif, klik untuk membuka surat" role="button"
+      tabindex="0">
+      <div class="envelope back"></div>
+      <div class="envelope pocket"></div>
+      <div class="envelope flap" id="flap"></div>
+      <div class="letter" id="letter">
+        <svg class="corner tl" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#ffd1dc" d="M10 90 C20 60, 40 40, 70 30 L85 45 C60 55, 40 75, 30 95 Z" />
+        </svg>
+        <svg class="corner br" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#ffd1dc" d="M90 10 C80 40, 60 60, 30 70 L15 55 C40 45, 60 25, 70 5 Z" />
+        </svg>
+        <h1>Untukmu, Matahariku</h1>
+        <div class="sub">Dibuka dengan hati-hati, disimpan di hati.</div>
+        <div class="poem" id="poemText">Sekian banyak benda luar angkasa, namun hanya kamu yang memberikan kehangatan.
+          Tanpamu, hanya ada sunyi dan dinginnya angin.
+
+          Selalu ku tunggu setiap pagi, dan ku rindukan setiap malam.
+
+          Apa tidak lelah selalu tampak kuat dan paripurna? Aku menerka-nerka apa yang membuatmu begitu indah dan
+          membara. Bukan, bukan untuk menjatuhkanmu, tetapi untuk mendukungmu di waktu lelahmu.
+
+          Kukira aku yang mengelilingimu, tapi ternyata kaulah pusatku. Dimanapun kamu berada, sejauh apapun,
+          mengitarimu jadi rutinitas. Lelah? Tidak mungkin, karena aku selalu kagum padamu. Kamu, matahariku.</div>
+      </div>
+      <div class="hint" id="hint">Klik untuk membuka surat ✉️</div>
+    </div>
+  </div>
+
+  <!-- GSAP + Confetti -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  <script>
+    const wrap = document.getElementById('envelopeWrap');
+    const flap = document.getElementById('flap');
+    const letter = document.getElementById('letter');
+    const hint = document.getElementById('hint');
+    const stickers = document.querySelectorAll('.sticker');
+
+    // Idle floating for envelope
+    gsap.to(wrap, { y: -10, duration: 2.2, yoyo: true, repeat: -1, ease: 'sine.inOut' });
+
+    // Parallax on mouse move
+    document.addEventListener('mousemove', (e) => {
+      const { innerWidth: w, innerHeight: h } = window;
+      const rx = (e.clientX / w - 0.5) * 10;
+      const ry = (e.clientY / h - 0.5) * -10;
+      gsap.to(wrap, { rotationY: rx, rotationX: ry, transformPerspective: 1200, transformOrigin: 'center', duration: .6, ease: 'power2.out' });
+      stickers.forEach(el => {
+        const d = parseFloat(el.dataset.depth || 0.2);
+        gsap.to(el, { x: rx * 8 * d, y: ry * 8 * d, duration: .6, ease: 'power2.out' });
+      });
+    });
+
+    // Open sequence
+    const openLetter = () => {
+      if (wrap.classList.contains('opened')) return; // prevent re-open
+      wrap.classList.add('opened');
+      hint && (hint.style.opacity = 0);
+
+      const tl = gsap.timeline();
+      tl.to(wrap, { y: 0, rotationX: 0, rotationY: 0, duration: .3 })
+        // lift the flap
+        .to(flap, { transformOrigin: 'top center', rotationX: -150, duration: 0.8, ease: 'power3.inOut' })
+        // raise the letter
+        .to(letter, { opacity: 1, transform: 'translateY(-6%) rotateX(0deg)', duration: 1.0, ease: 'power3.out' }, '-=0.2')
+        // pulse
+        .to(letter, { y: -6, duration: .6, yoyo: true, repeat: 1, ease: 'sine.inOut' })
+        // little celebration
+        .add(() => {
+          confetti({ particleCount: 120, spread: 60, origin: { y: 0.6 } });
+          confetti({ particleCount: 80, spread: 80, origin: { x: 0, y: 0.7 } });
+          confetti({ particleCount: 80, spread: 80, origin: { x: 1, y: 0.7 } });
+        });
+    };
+
+    wrap.addEventListener('click', openLetter);
+    wrap.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLetter(); } });
+    // --- KODE BARU UNTUK FADE AUDIO (VERSI FINAL) ---
+    const bgm = document.getElementById('bgm');
+    const playBtn = document.getElementById('playBtn');
+    let playing = false;
+    let fadeInterval;
+
+    const fadeDuration = 1000;
+    const fadeStep = 50;
+    const volumeStep = fadeStep / fadeDuration;
+
+    const audioFadeIn = () => {
+      clearInterval(fadeInterval);
+      playBtn.disabled = true;
+
+      // 1. Atur volume ke 0 SEBELUM play
+      bgm.volume = 0;
+      const playPromise = bgm.play();
+
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          // 2. Jika play berhasil, baru jalankan fade-in
+          playing = true;
+          playBtn.textContent = 'Pause';
+
+          fadeInterval = setInterval(() => {
+            if (bgm.volume < 0.8) {
+              bgm.volume = Math.min(0.8, bgm.volume + volumeStep);
+            } else {
+              clearInterval(fadeInterval);
+              playBtn.disabled = false;
+            }
+          }, fadeStep);
+
+        }).catch(error => {
+          console.error("Audio play ditolak:", error);
+          // Jika gagal, pastikan UI kembali normal
+          playBtn.disabled = false;
+          playBtn.textContent = 'Play';
+          playing = false;
+        });
+      }
+    };
+
+    const audioFadeOut = () => {
+      clearInterval(fadeInterval);
+      playBtn.disabled = true;
+
+      fadeInterval = setInterval(() => {
+        if (bgm.volume > 0.0) {
+          bgm.volume = Math.max(0, bgm.volume - volumeStep);
+        } else {
+          bgm.pause();
+          playing = false;
+          playBtn.textContent = 'Play';
+          clearInterval(fadeInterval);
+          playBtn.disabled = false;
+        }
+      }, fadeStep);
+    };
+
+    // 3. Hapus pengecekan readyState agar tombol selalu responsif
+    playBtn.addEventListener('click', () => {
+      if (!playing) {
+        audioFadeIn();
+      } else {
+        audioFadeOut();
+      }
+    });
+
+    wrap.addEventListener('click', () => {
+      if (!playing) {
+        audioFadeIn();
+      }
+    });
+  </script>
+</body>
+
+</html>
